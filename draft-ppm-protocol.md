@@ -352,7 +352,8 @@ client could not report 10^6s or -20s.
 
 Communications between PPM entities are carried over HTTPS {{!RFC2818}}. HTTPS
 provides server authentication and confidentiality. In addition, report shares
-are encrypted directly to the aggregators using HPKE {{!I-D.irtf-cfrg-hpke}}.
+are encrypted directly to the aggregators using HPKE {{!I-D.irtf-cfrg-hpke}}, as
+are output shares transmitted to the collector.
 
 ## Errors
 
