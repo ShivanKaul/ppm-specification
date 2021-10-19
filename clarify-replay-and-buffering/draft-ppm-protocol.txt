@@ -5,12 +5,12 @@
 Network Working Group                                       T. Geoghegan
 Internet-Draft                                                      ISRG
 Intended status: Standards Track                               C. Patton
-Expires: 15 April 2022                                        Cloudflare
+Expires: 22 April 2022                                        Cloudflare
                                                              E. Rescorla
                                                                  Mozilla
                                                                C.A. Wood
                                                               Cloudflare
-                                                         12 October 2021
+                                                         19 October 2021
 
 
                      Privacy Preserving Measurement
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 April 2022.
+   This Internet-Draft will expire on 22 April 2022.
 
 Copyright Notice
 
@@ -844,10 +844,10 @@ OutputShareReq (State 4) ----------------------------------->
 4.3.1.1.  Leader State
 
    The leader is required to issue aggregate requests in order, but
-   reports are likely to arrive out-of-order.  The leader MUST store
+   reports are likely to arrive out-of-order.  The leader SHOULD store
    reports until their timestamp is sufficiently far in the past (based
    on the grace_window task parameter) before including them in an
-   aggregate request.  Failure to do so will result in reports being
+   aggregate request.  Failure to do so may result in reports being
    dropped by the helper.  The leader MUST NOT accept reports whose
    timestamps are in the future.  Implementors MAY provide for some
    small leeway, usually no more than a few minutes, to account for
