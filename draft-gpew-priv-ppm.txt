@@ -14,7 +14,7 @@ Expires: 28 April 2022                                        Cloudflare
 
 
                      Privacy Preserving Measurement
-                       draft-ppm-protocol-latest
+                       draft-gpew-priv-ppm-latest
 
 Abstract
 
