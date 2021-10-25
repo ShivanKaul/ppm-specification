@@ -5,12 +5,12 @@
 Network Working Group                                       T. Geoghegan
 Internet-Draft                                                      ISRG
 Intended status: Standards Track                               C. Patton
-Expires: 22 April 2022                                        Cloudflare
+Expires: 28 April 2022                                        Cloudflare
                                                              E. Rescorla
                                                                  Mozilla
                                                                C.A. Wood
                                                               Cloudflare
-                                                         19 October 2021
+                                                         25 October 2021
 
 
                      Privacy Preserving Measurement
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 April 2022.
+   This Internet-Draft will expire on 28 April 2022.
 
 Copyright Notice
 
@@ -502,10 +502,6 @@ Table of Contents
       which the batch interval of each collect request must be aligned.
       (See Section 4.4.1.)
 
-   *  grace_window: The minimum age of a client report, based on the
-      report's timestamp, before the leader will include the report in
-      an aggregation.  (See Section 4.3.1.1.)
-
    *  protocol: named parameter identifying the core PPM protocol, e.g.,
       Prio or Hits.
 
@@ -845,13 +841,12 @@ OutputShareReq (State 4) ----------------------------------->
 
    The leader is required to issue aggregate requests in order, but
    reports are likely to arrive out-of-order.  The leader SHOULD store
-   reports until their timestamp is sufficiently far in the past (based
-   on the grace_window task parameter) before including them in an
-   aggregate request.  Failure to do so may result in reports being
-   dropped by the helper.  The leader MUST NOT accept reports whose
-   timestamps are in the future.  Implementors MAY provide for some
-   small leeway, usually no more than a few minutes, to account for
-   clock skew.
+   reports for a time period proportional to the batch window before
+   including them in an aggregate request.  Failure to do so may result
+   in out-of-order reports being dropped by the helper.  The leader MUST
+   NOT accept reports whose timestamps are in the future.  Implementors
+   MAY provide for some small leeway, usually no more than a few
+   minutes, to account for clock skew.
 
 4.3.1.2.  Helper State
 
