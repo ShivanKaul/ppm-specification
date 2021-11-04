@@ -19,10 +19,10 @@ and rendering many such measurements difficult and impractical. This document
 describes a multi-party privacy preserving measurement (PPM) protocol which can
 be used to collect aggregate data without revealing any individual user's data. 
     " name="description">
-<meta content="xml2rfc 3.10.0" name="generator">
+<meta content="xml2rfc 3.11.1" name="generator">
 <meta content="draft-gpew-priv-ppm-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.10.0
+  xml2rfc 3.11.1
     Python 3.9.5
     appdirs 1.4.4
     ConfigArgParse 1.3
@@ -206,7 +206,8 @@ be used to collect aggregate data without revealing any individual user's data.
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
+:root {
+  color-scheme: light dark;
   --background-color: #fff;
   --text-color: #222;
   --title-color: #191919;
@@ -216,6 +217,7 @@ html {
   --pilcrow-weak: #ddd;
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -309,6 +311,10 @@ div {
 }
 svg {
   display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
 }
 .alignCenter.art-text {
   background-color: var(--highlight-color);
@@ -404,7 +410,7 @@ a.xref {
 /* Figures */
 tt, code, pre {
   background-color: var(--highlight-color);
-  font: 14px/22px 'Oxygen Mono', monospace;
+  font: 14px/22px var(--font-mono);
 }
 tt, code {
   /* changing the font for inline elements leads to different ascender
@@ -1010,7 +1016,7 @@ address div.right {
 
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
-html {
+:root {
   --background-color: #121212;
   --text-color: #f0f0f0;
   --title-color: #fff;
@@ -1043,11 +1049,11 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Privacy Preserving Measurement</td>
-<td class="right">October 2021</td>
+<td class="right">November 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Geoghegan, et al.</td>
-<td class="center">Expires 28 April 2022</td>
+<td class="center">Expires 8 May 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1060,12 +1066,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-gpew-priv-ppm-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-10-25" class="published">25 October 2021</time>
+<time datetime="2021-11-04" class="published">4 November 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-28">28 April 2022</time></dd>
+<dd class="expires"><time datetime="2022-05-08">8 May 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1135,7 @@ be used to collect aggregate data without revealing any individual user's data.<
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 28 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 May 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1147,9 +1153,9 @@ be used to collect aggregate data without revealing any individual user's data.<
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1406,8 +1412,7 @@ the protocol framework or the set of features we intend to support.<a href="#sec
         <h3 id="name-conventions-and-definitions">
 <a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
         </h3>
-<p id="section-1.2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL</span>
-NOT", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<p id="section-1.2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
@@ -4227,35 +4232,35 @@ specification.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2818">[RFC2818]</dt>
         <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"HTTP Over TLS"</span>, <span class="seriesInfo">RFC 2818</span>, <span class="seriesInfo">DOI 10.17487/RFC2818</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2818">https://datatracker.ietf.org/doc/html/rfc2818</a>&gt;</span>. </dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"HTTP Over TLS"</span>, <span class="seriesInfo">RFC 2818</span>, <span class="seriesInfo">DOI 10.17487/RFC2818</span>, <time datetime="2000-05" class="refDate">May 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2818">https://www.rfc-editor.org/rfc/rfc2818</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3553">[RFC3553]</dt>
         <dd>
-<span class="refAuthor">Mealling, M.</span>, <span class="refAuthor">Masinter, L.</span>, <span class="refAuthor">Hardie, T.</span>, and <span class="refAuthor">G. Klyne</span>, <span class="refTitle">"An IETF URN Sub-namespace for Registered Protocol Parameters"</span>, <span class="seriesInfo">BCP 73</span>, <span class="seriesInfo">RFC 3553</span>, <span class="seriesInfo">DOI 10.17487/RFC3553</span>, <time datetime="2003-06" class="refDate">June 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3553">https://datatracker.ietf.org/doc/html/rfc3553</a>&gt;</span>. </dd>
+<span class="refAuthor">Mealling, M.</span>, <span class="refAuthor">Masinter, L.</span>, <span class="refAuthor">Hardie, T.</span>, and <span class="refAuthor">G. Klyne</span>, <span class="refTitle">"An IETF URN Sub-namespace for Registered Protocol Parameters"</span>, <span class="seriesInfo">BCP 73</span>, <span class="seriesInfo">RFC 3553</span>, <span class="seriesInfo">DOI 10.17487/RFC3553</span>, <time datetime="2003-06" class="refDate">June 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3553">https://www.rfc-editor.org/rfc/rfc3553</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC5861">[RFC5861]</dt>
         <dd>
-<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"HTTP Cache-Control Extensions for Stale Content"</span>, <span class="seriesInfo">RFC 5861</span>, <span class="seriesInfo">DOI 10.17487/RFC5861</span>, <time datetime="2010-05" class="refDate">May 2010</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc5861">https://datatracker.ietf.org/doc/html/rfc5861</a>&gt;</span>. </dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"HTTP Cache-Control Extensions for Stale Content"</span>, <span class="seriesInfo">RFC 5861</span>, <span class="seriesInfo">DOI 10.17487/RFC5861</span>, <time datetime="2010-05" class="refDate">May 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5861">https://www.rfc-editor.org/rfc/rfc5861</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7234">[RFC7234]</dt>
         <dd>
-<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Caching"</span>, <span class="seriesInfo">RFC 7234</span>, <span class="seriesInfo">DOI 10.17487/RFC7234</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7234">https://datatracker.ietf.org/doc/html/rfc7234</a>&gt;</span>. </dd>
+<span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP/1.1): Caching"</span>, <span class="seriesInfo">RFC 7234</span>, <span class="seriesInfo">DOI 10.17487/RFC7234</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7234">https://www.rfc-editor.org/rfc/rfc7234</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7807">[RFC7807]</dt>
         <dd>
-<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">E. Wilde</span>, <span class="refTitle">"Problem Details for HTTP APIs"</span>, <span class="seriesInfo">RFC 7807</span>, <span class="seriesInfo">DOI 10.17487/RFC7807</span>, <time datetime="2016-03" class="refDate">March 2016</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7807">https://datatracker.ietf.org/doc/html/rfc7807</a>&gt;</span>. </dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">E. Wilde</span>, <span class="refTitle">"Problem Details for HTTP APIs"</span>, <span class="seriesInfo">RFC 7807</span>, <span class="seriesInfo">DOI 10.17487/RFC7807</span>, <time datetime="2016-03" class="refDate">March 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7807">https://www.rfc-editor.org/rfc/rfc7807</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8174">https://datatracker.ietf.org/doc/html/rfc8174</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
       <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8446">https://datatracker.ietf.org/doc/html/rfc8446</a>&gt;</span>. </dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -4282,7 +4287,7 @@ specification.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 <dt id="RFC8555">[RFC8555]</dt>
         <dd>
-<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Hoffman-Andrews, J.</span>, <span class="refAuthor">McCarney, D.</span>, and <span class="refAuthor">J. Kasten</span>, <span class="refTitle">"Automatic Certificate Management Environment (ACME)"</span>, <span class="seriesInfo">RFC 8555</span>, <span class="seriesInfo">DOI 10.17487/RFC8555</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8555">https://datatracker.ietf.org/doc/html/rfc8555</a>&gt;</span>. </dd>
+<span class="refAuthor">Barnes, R.</span>, <span class="refAuthor">Hoffman-Andrews, J.</span>, <span class="refAuthor">McCarney, D.</span>, and <span class="refAuthor">J. Kasten</span>, <span class="refTitle">"Automatic Certificate Management Environment (ACME)"</span>, <span class="seriesInfo">RFC 8555</span>, <span class="seriesInfo">DOI 10.17487/RFC8555</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8555">https://www.rfc-editor.org/rfc/rfc8555</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="Vad16">[Vad16]</dt>
       <dd>
